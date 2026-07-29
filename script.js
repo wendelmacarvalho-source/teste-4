@@ -51,6 +51,18 @@ document.addEventListener("keyup",e=>{
 
 });
 
+document.addEventListener("keydown", (e) => {
+
+    if (estado === "menu" && e.code === "Enter") {
+        estado = "jogando";
+    }
+
+    if ((estado === "gameover" || estado === "vitoria") && e.code === "Enter") {
+        location.reload();
+    }
+
+});
+
 /////////////////////////
 // PLATAFORMAS
 /////////////////////////
@@ -147,6 +159,10 @@ let cameraX=0;
 /////////////////////////
 
 function update(){
+    
+    if (estado !== "jogando") {
+    return;
+}
 
 /////////////////////////
 // MOVIMENTO
@@ -170,7 +186,7 @@ player.velX=0;
 
 }
 
-if(keys["Space"] && player.grounded){
+if(keys["ArrowUp"] && player.grounded){
 
 player.velY=-player.jump;
 
@@ -294,7 +310,7 @@ player.velY=0;
 // GAME OVER
 /////////////////////////
 
-if(player.vidas<=0){
+if(player.vidas<=-1){
 
 alert("GAME OVER");
 
@@ -324,7 +340,7 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 // CÉU
 /////////////////////////
 
-ctx.fillStyle="#87CEEB";
+ctx.fillStyle="#5dbfe6";
 ctx.fillRect(0,0,canvas.width,canvas.height);
 
 ctx.save();
@@ -335,7 +351,7 @@ ctx.translate(-cameraX,0);
 // PLATAFORMAS
 /////////////////////////
 
-ctx.fillStyle="#8B4513";
+ctx.fillStyle="#3f280a";
 
 for(let p of plataformas){
 
@@ -347,7 +363,7 @@ ctx.fillRect(p.x,p.y,p.width,p.height);
 // MOEDAS
 /////////////////////////
 
-ctx.fillStyle="gold";
+ctx.fillStyle="#138b2d";
 
 for(let moeda of moedas){
 
@@ -365,7 +381,7 @@ ctx.fill();
 // INIMIGOS
 /////////////////////////
 
-ctx.fillStyle="purple";
+ctx.fillStyle="red";
 
 for(let inimigo of inimigos){
 
@@ -386,7 +402,7 @@ inimigo.height
 // JOGADOR
 /////////////////////////
 
-ctx.fillStyle="red";
+ctx.fillStyle="blue";
 
 ctx.fillRect(
 
